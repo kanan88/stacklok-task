@@ -6,7 +6,6 @@ import { signIn, useSession, signOut } from "next-auth/react";
 
 const Header = () => {
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div className="shadow-sm border-b sticky top-0 bg-white z-10 p-3">
@@ -27,7 +26,6 @@ const Header = () => {
           className="bg-gray-50 border border-gray-200 rounded text-sm w-full py-2 px-4 max-w-[210px]"
         />
         {/* Menu Items */}
-
         {session ? (
           <img
             src={session?.user?.image}
