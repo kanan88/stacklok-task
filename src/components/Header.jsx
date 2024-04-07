@@ -93,6 +93,7 @@ const Header = () => {
     });
     setTaskUploading(false);
     setIsOpen(false);
+    location.reload();
   };
 
   return (
@@ -187,6 +188,7 @@ const Header = () => {
               !selectedFile ||
               !taskTitle.trim() ||
               !taskDesc.trim() ||
+              taskUploading ||
               imageFileUploading
             }
             className="w-full bg-red-600 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:hover:brightness-100"
@@ -194,7 +196,7 @@ const Header = () => {
             Create a task
           </button>
           <AiOutlineClose
-            className="cursor-pointer absolute top-2 right-2 hover:text-r-ed-600 transition duration-300"
+            className="cursor-pointer absolute top-2 right-2 hover:text-red-600 transition duration-300"
             onClick={() => setIsOpen(false)}
           />
         </Modal>
