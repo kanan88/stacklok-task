@@ -15,14 +15,27 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const Header = () => {
   const { data: session } = useSession();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
+  const [taskUploading, setTaskUploading] = useState(false);
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDesc, setTaskDesc] = useState("");
+
   const filePickerRef = useRef(null);
+
+  const db = getFirestore(app);
 
   const addImageToHost = (e) => {
     const file = e.target.files[0];
@@ -65,6 +78,20 @@ const Header = () => {
         });
       }
     );
+  };
+
+  const handleSubmit = async () => {
+    setTaskUploading(true);
+    const docRef = await addDoc(collection(db, "tasks"), {
+      username: session.user.username,
+      title: taskTitle,
+      description: taskDesc,
+      profileImg: session.user.image,
+      image: imageFileUrl,
+      timestamp: serverTimestamp(),
+    });
+    setTaskUploading(false);
+    setIsOpen(false);
   };
 
   return (
@@ -144,15 +171,23 @@ const Header = () => {
             maxLength="150px"
             placeholder="Please put some title..."
             className="m-4 border-none text-center w-full focus:ring-0 outline-none"
+            onChange={(e) => setTaskTitle(e.target.value)}
           />
           <input
             type="text"
             maxLength="150px"
             placeholder="Please put some description..."
             className="m-4 border-none text-center w-full focus:ring-0 outline-none"
+            onChange={(e) => setTaskDesc(e.target.value)}
           />
           <button
-            disabled
+            onClick={handleSubmit}
+            disabled={
+              !selectedFile ||
+              !taskTitle.trim() ||
+              !taskDesc.trim() ||
+              imageFileUploading
+            }
             className="w-full bg-red-600 text-white p-2 shadow-md rounded-lg hover:brightness-105 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:hover:brightness-100"
           >
             Create a task
