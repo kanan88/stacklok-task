@@ -12,11 +12,13 @@ export const Task = ({ task }) => {
         <p className="flex-1 font-bold">{task.username}</p>
         <HiOutlineDotsVertical className="h-5 cursor-pointer" />
       </div>
-      <img src={task.image} alt={task.title} className="object-cover w-full" />
-      <p className="p-5 truncate">
-        <span>{task.username}</span>
-        {task.title}
-      </p>
+      <img
+        src={task.image}
+        alt={task.title}
+        className="object-cover w-full max-h-40"
+      />
+      <p className="p-2.5 truncate">{task.title}</p>
+      <p className="p-2.5 truncate">{task.description}</p>
     </div>
   );
 };
