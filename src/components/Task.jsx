@@ -1,4 +1,5 @@
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import LikeSection from "./LikeSection";
 
 export const Task = ({ task }) => {
   return (
@@ -15,8 +16,9 @@ export const Task = ({ task }) => {
       <img
         src={task.image}
         alt={task.title}
-        className="object-cover w-full max-h-40"
+        className="object-cover w-full max-h-50"
       />
+      <LikeSection id={task.id} />
       <p className="p-2.5 truncate">{task.title}</p>
       <p className="p-2.5 truncate">{task.description}</p>
     </div>
